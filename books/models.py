@@ -2,6 +2,7 @@ from django.db import models
 from django.contrib.auth.models import User
 
 
+
 class Costumer(models.Model):
     user = models.OneToOneField(User, related_name='profile',on_delete=models.CASCADE)
     CID = models.IntegerField(default=1)
@@ -15,6 +16,9 @@ class Costumer(models.Model):
 class Author(models.Model):
     AID = models.IntegerField
     AName = models.CharField(max_length=50)
+    def __str__(self):
+        return str(self.AName)
+
 
 class Category(models.Model):
 
@@ -23,7 +27,7 @@ class Category(models.Model):
     updated_at = models.DateTimeField(auto_now=True)
 
     def __str__(self):
-        return self.name
+        return self.title
 
 
 class Book(models.Model):

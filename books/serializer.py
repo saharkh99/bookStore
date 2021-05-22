@@ -17,13 +17,12 @@ class BookSerializer(serializers.ModelSerializer):
 class CategorySerializer(serializers.ModelSerializer):
     class Meta:
         model = Category
-        fields = ['id', 'name', 'description', 'created_at', 'updated_at']
-
+        fields = ['id', 'title', 'created_at', 'updated_at']
 
 class BookCategorySerializer(serializers.ModelSerializer):
     class Meta:
         model = BookCategory
-        fields = ['id', 'book', 'category', 'created_at', 'updated_at']
+        fields = ['id', 'book', 'category']
 
 
 

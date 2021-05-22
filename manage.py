@@ -1,6 +1,8 @@
 #!/usr/bin/env python
 import os
 import sys
+from django.core.exceptions import FieldDoesNotExist
+
 
 
 def main():
@@ -8,6 +10,8 @@ def main():
     os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'BookStore.settings')
     try:
         from django.core.management import execute_from_command_line
+        from django.core.exceptions import FieldDoesNotExist
+
     except ImportError as exc:
         raise ImportError(
             "Couldn't import Django. Are you sure it's installed and "
