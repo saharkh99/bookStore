@@ -95,3 +95,11 @@ class CartBook(models.Model):
     BID = models.ForeignKey(Book, on_delete=models.CASCADE)
     CartID = models.ForeignKey(Cart, on_delete=models.CASCADE)
     Count = models.IntegerField(default=0)
+
+class favoriteBooks(models.Model):
+    AID = models.AutoField
+    user = models.ForeignKey(Costumer, on_delete=models.CASCADE)
+    book = models.ForeignKey(Book, on_delete=models.CASCADE)
+    def __str__(self):
+        return str(self.id)
+

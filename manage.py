@@ -1,7 +1,8 @@
 #!/usr/bin/env python
 import os
 import sys
-from django.core.exceptions import FieldDoesNotExist
+import unittest
+
 
 
 

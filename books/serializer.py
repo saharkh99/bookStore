@@ -3,7 +3,7 @@ from rest_framework import serializers
 
 
 
-from .models import Book, Category, BookCategory
+from .models import Book, Category, BookCategory,favoriteBooks
 
 
 class BookSerializer(serializers.ModelSerializer):
@@ -23,6 +23,12 @@ class BookCategorySerializer(serializers.ModelSerializer):
     class Meta:
         model = BookCategory
         fields = ['id', 'book', 'category']
+class favoritesSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = favoriteBooks
+        fields = ['id', 'user', 'book']
+
+
 
 
 

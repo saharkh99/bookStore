@@ -22,7 +22,7 @@ from books.views import BookViewSet, BookDetail, BookDelete, BookUpdate, BookSea
 
 urlpatterns = [
 
-    path(r'list/', BookViewSet.as_view({'get': 'list'}), name='book_lists'),
+    path(r'list/', BookViewSet.list, name='book_lists'),
     path(r'<int:id>/detail', BookDetail.as_view(), name='detail'),
     path(r'<int:id>/delete/', BookDelete.as_view(), name='delete'),
     path(r'<int:id>/edit/', BookUpdate.as_view(), name='update'),
