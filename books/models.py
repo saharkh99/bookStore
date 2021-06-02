@@ -13,15 +13,8 @@ class Costumer(models.Model):
     City = models.CharField(max_length=50)
     Registered = models.BooleanField()
 
-class Author(models.Model):
-    AID = models.IntegerField
-    AName = models.CharField(max_length=50)
-    def __str__(self):
-        return str(self.AName)
-
 
 class Category(models.Model):
-
     title = models.CharField(max_length=100)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
@@ -31,13 +24,13 @@ class Category(models.Model):
 
 
 class Book(models.Model):
+    bok = models.ForeignKey('Category',on_delete=models.CASCADE, related_name="books",null=True,blank=True)
+
     def __str__(self):
         return self.name
-
     BID = models.IntegerField(default=0)
     name = models.CharField(max_length=200)
     publisher = models.CharField(max_length=200)
-    author = models.ForeignKey(Author, on_delete=models.CASCADE, null=True, blank=True)
     summery = models.CharField(max_length=200)
     rating = models.FloatField()
     image = models.ImageField(upload_to='Images/', default='Images/None/Noimg.jpg')
@@ -46,6 +39,12 @@ class Book(models.Model):
     Year = models.IntegerField(default=1400)
     Edition = models.IntegerField(default=1)
     Price = models.IntegerField(default=0)
+
+
+class Author(models.Model):
+    bok = models.ForeignKey('Book',on_delete=models.CASCADE, related_name="author_name",default='')
+    AID = models.IntegerField
+    AName = models.CharField(max_length=50)
 
 class Ratings(models.Model):
     RID = models.IntegerField

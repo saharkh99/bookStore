@@ -1,6 +1,8 @@
 import serializer as serializer
 from django.contrib.auth.models import User
-from django.http import HttpResponse
+from django.core.serializers import json
+from django.forms import model_to_dict
+from django.http import HttpResponse, JsonResponse
 from django.shortcuts import render
 
 # Create your views here.
@@ -8,7 +10,7 @@ from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
-from .serializer import BookSerializer,CategorySerializer,BookCategorySerializer,favoritesSerializer
+from .serializer import BookSerializer,CategorySerializer,favoritesSerializer
 from rest_framework.generics import RetrieveAPIView, UpdateAPIView, DestroyAPIView,ListAPIView
 from rest_framework import viewsets, filters, generics, status
 from .models import Book, Category,BookCategory,favoriteBooks
@@ -34,8 +36,6 @@ class BookUpdate(UpdateAPIView):
     serializer_class = BookSerializer
     lookup_field = 'id'
 
-
-
 class BookDelete(DestroyAPIView):
     queryset = Book.objects.all()
     serializer_class = BookSerializer
@@ -48,14 +48,14 @@ class BookSearch(generics.ListCreateAPIView):
     search_fields = ['name','author']
     ordering_fields = ['name', 'author']
 
-class CategoryList(viewsets.ModelViewSet):
-    queryset = Category.objects.all()
-    serializer_class = CategorySerializer
+class CategoryList(generics.ListAPIView):
+    @api_view(('GET',))
+    def list(request):
+        snippets = Category.objects.all()
+        serializer = CategorySerializer(snippets, many=True)
+        return Response({'items': serializer.data})
 
-class BooksOfEachCategory(RetrieveAPIView):
-    queryset = BookCategory.objects.all()
-    serializer_class = BookCategorySerializer
-    lookup_field = 'id'
+
 
 class Favorites(APIView):
     def get(self, request):

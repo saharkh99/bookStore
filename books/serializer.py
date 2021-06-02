@@ -1,28 +1,31 @@
-
 from rest_framework import serializers
 
+from BookStore.settings import MEDIA_URL
+from .models import Book, Category,favoriteBooks,Author
 
 
-from .models import Book, Category, BookCategory,favoriteBooks
-
+class AuthorSerializer(serializers.ModelSerializer):
+    AName = serializers.CharField(max_length=23)
+    class Meta:
+        model = Author
+        fields = ['AName']
 
 class BookSerializer(serializers.ModelSerializer):
     image = serializers.ImageField(max_length=None, use_url=True)
+    author_name = AuthorSerializer(many=True)
 
     class Meta:
         model = Book
-        fields = ['id', 'name', 'publisher', 'author', 'summery', 'rating','Year','Price','Edition', 'image', 'created_at', 'updated_at']
+        fields = [ 'name', 'publisher', 'author_name', 'summery', 'rating','Year','Price','Edition', 'image', 'created_at', 'updated_at']
+
 
 
 class CategorySerializer(serializers.ModelSerializer):
+    books = BookSerializer(many=True)
     class Meta:
         model = Category
-        fields = ['id', 'title', 'created_at', 'updated_at']
+        fields = ['id','title','books',  'created_at', 'updated_at']
 
-class BookCategorySerializer(serializers.ModelSerializer):
-    class Meta:
-        model = BookCategory
-        fields = ['id', 'book', 'category']
 class favoritesSerializer(serializers.ModelSerializer):
     class Meta:
         model = favoriteBooks
