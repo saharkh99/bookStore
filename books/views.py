@@ -7,13 +7,14 @@ from django.shortcuts import render
 
 # Create your views here.
 from rest_framework.decorators import api_view
+from rest_framework.parsers import JSONParser
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
-from .serializer import BookSerializer,CategorySerializer,favoritesSerializer
+from .serializer import BookSerializer, CategorySerializer, favoritesSerializer, OrderSerializer
 from rest_framework.generics import RetrieveAPIView, UpdateAPIView, DestroyAPIView,ListAPIView
 from rest_framework import viewsets, filters, generics, status
-from .models import Book, Category,BookCategory,favoriteBooks
+from .models import Book, Category, BookCategory, favoriteBooks, Order
 from rest_framework.permissions import (
 AllowAny,IsAuthenticated,IsAdminUser,IsAuthenticatedOrReadOnly
 )
@@ -55,6 +56,31 @@ class CategoryList(generics.ListAPIView):
         serializer = CategorySerializer(snippets, many=True)
         return Response({'items': serializer.data})
 
+class OrdersViewSet(viewsets.ModelViewSet):
+    queryset = Order.objects.all()
+    serializer_class = OrderSerializer
+
+    def get_queryset(self):
+        user = self.request.user
+        queryset = self.queryset.filter(owner=user)
+        return queryset
+
+    @api_view(('POST',))
+    def createOrder (self):
+         serializer.save(owner=self.request.user)
+        # tutorial_data = JSONParser().parse(request)
+        # tutorial_serializer = OrderSerializer(data=tutorial_data)
+        # if tutorial_serializer.is_valid():
+        #     tutorial_serializer.save()
+        #     return JsonResponse(tutorial_serializer.data, status=status.HTTP_201_CREATED)
+        # return JsonResponse(tutorial_serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+        # Order.objects.create(
+        #     OID=self.POST.get('OID'),
+        #     CartID = self.POST.get('Of_Cart')
+        # )
+        # return HttpResponse(status=201)
+        # cartID=serializer.POST.get('Of_Cart')
 
 
 class Favorites(APIView):

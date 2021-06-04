@@ -18,7 +18,7 @@ from django.urls import path
 from django.core.exceptions import FieldDoesNotExist
 
 
-from books.views import BookViewSet, BookDetail, BookDelete, BookUpdate, BookSearch,CategoryList
+from books.views import BookViewSet, BookDetail, BookDelete, BookUpdate, BookSearch,CategoryList,OrdersViewSet
 
 urlpatterns = [
 
@@ -28,4 +28,5 @@ urlpatterns = [
     path(r'<int:id>/edit/', BookUpdate.as_view(), name='update'),
     path(r'search/', BookSearch.as_view(), name='search'),
     path(r'categories/', CategoryList.list, name='categories'),
+    path(r'orders/', OrdersViewSet.createOrder, name='orders'),
 ]
